@@ -105,3 +105,4 @@ job-output/
 *.icloud
 # Windows Zone.Identifier streams (when extracted by some tools)
 *.Zone.Identifier
+.github/copilot-instructions.md
