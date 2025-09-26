@@ -6,7 +6,7 @@ echo.
 :: Check if .NET SDK is available
 dotnet --version >nul 2>&1
 if %errorLevel% neq 0 (
-    echo ERROR: .NET SDK not found. Please install .NET 8 SDK.
+    echo ERROR: .NET SDK not found. Please install .NET 9 SDK.
     echo Download from: https://dotnet.microsoft.com/download
     pause
     exit /b 1
