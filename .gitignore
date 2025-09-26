@@ -1,0 +1,102 @@
+# -----------------------------
+# OS cruft
+# -----------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# -----------------------------
+# Editors / IDEs
+# -----------------------------
+.vs/
+.idea/
+*.iml
+
+# Keep selected VS Code files, ignore the rest
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+
+# -----------------------------
+# Node / Chrome extension workspace
+# -----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+.eslintcache
+*.tsbuildinfo
+.next/
+.cache/
+coverage/
+.nyc_output/
+.pnp.*
+# Extension build/packaging outputs
+dist/
+build/
+*.crx
+*.zip
+*.pem
+
+# -----------------------------
+# .NET / C# (native messaging host)
+# -----------------------------
+# Build output
+host/**/bin/
+host/**/obj/
+host/**/publish/
+# Test output
+host/**/TestResults/
+# IDE user files
+*.user
+*.suo
+*.sln.docstates
+# NuGet
+*.nupkg
+# Rider / ReSharper caches
+.ReSharper*/
+*_ReSharper.*/
+*.DotSettings.user
+
+# -----------------------------
+# Logs & temp
+# -----------------------------
+logs/
+*.log
+log/
+tmp/
+temp/
+*.tmp
+
+# -----------------------------
+# Env / secrets (created locally)
+# -----------------------------
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.cer
+*.key
+
+# -----------------------------
+# Project-specific outputs
+# -----------------------------
+# Published host artifacts copied here by release scripts
+/dist/extension/
+ /dist/host/
+# Local installer artifacts
+host/scripts/*.generated.*
+host/scripts/*.local.*
+
+# -----------------------------
+# Misc
+# -----------------------------
+# macOS archive metadata
+*.icloud
+# Windows Zone.Identifier streams (when extracted by some tools)
+*.Zone.Identifier
