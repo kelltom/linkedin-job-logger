@@ -2,6 +2,8 @@
 
 Automate your job application workflow with one-click capture of LinkedIn job postings. This Chrome extension creates organized folders and PDF snapshots of job advertisements for your personal tracking.
 
+Authored by Kelltom & Claude
+
 ## Features
 
 - **One-Click Capture**: Extract job details from LinkedIn job pages automatically
