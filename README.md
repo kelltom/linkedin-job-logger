@@ -23,7 +23,7 @@ Automate your job application workflow with one-click capture of LinkedIn job po
 
 - Windows 10 or later
 - Google Chrome browser
-- .NET 8 Runtime (for the native host)
+- .NET 9 Runtime (for the native host)
 
 ### Step 1: Build the Native Host
 
@@ -54,7 +54,7 @@ Automate your job application workflow with one-click capture of LinkedIn job po
 
 1. Click the extension icon in Chrome's toolbar
 2. Click the settings gear (⚙️) icon
-3. Set your base folder path (e.g., `C:\Users\YourName\Documents\Job Applications`)
+3. Set your base folder path (e.g., `C:\Users\%USERPROFILE%\Documents\Job Applications`)
 4. Click "Test Native Host" to verify the connection
 5. Save your settings
 
@@ -79,8 +79,6 @@ Each job creates a folder named: `{YYYY-MM-DD} {Company} - {Job Title}`
 
 Inside the folder:
 - `ad.html` - Formatted job posting with all details
-- `ad.txt` - Plain text version of the job posting
-- `ad.pdf` - PDF version (placeholder for now)
 
 ### Folder Organization Example
 
@@ -88,12 +86,8 @@ Inside the folder:
 📁 Job Applications/
   📁 2024-09-25 Google - Senior Software Engineer/
     📄 ad.html
-    📄 ad.txt
-    📄 ad.pdf
   📁 2024-09-25 Microsoft - Product Manager/
     📄 ad.html
-    📄 ad.txt
-    📄 ad.pdf
 ```
 
 ## Troubleshooting
@@ -124,7 +118,6 @@ Inside the folder:
 
 **Job details not extracting properly**
 - LinkedIn frequently updates their page structure
-- Try manually entering the job details
 - The extension uses resilient selectors but may need updates for major LinkedIn changes
 
 ## Development
@@ -139,17 +132,17 @@ linkedin-job-logger/
 │   ├── content.js       # LinkedIn page parser
 │   ├── popup.html       # Main UI
 │   ├── popup.js
-│   ├── settings.html    # Settings page
+│   ├── settings.html
 │   └── settings.js
-├── host/               # Native messaging host
+├── host/                # Native messaging host
 │   ├── src/
 │   │   └── LinkedInJobLoggerHost/
 │   │       ├── Program.cs
 │   │       ├── NativeMessagingHost.cs
 │   │       └── LinkedInJobLoggerHost.csproj
-│   ├── build.bat       # Build script
-│   ├── install.bat     # Installation script
-│   └── uninstall.bat   # Uninstallation script
+│   ├── build.bat
+│   ├── install.bat
+│   └── uninstall.bat
 └── README.md
 ```
 
@@ -162,21 +155,6 @@ linkedin-job-logger/
    ```
 
 2. **Extension**: No build required, load directly in Chrome developer mode
-
-### Future Enhancements
-
-- **Real PDF Generation**: Integrate a proper HTML-to-PDF library
-- **Advanced Parsing**: Handle more LinkedIn page variations
-- **Export Features**: Bulk export to CSV/Excel
-- **Job Status Tracking**: Mark applications as applied, rejected, etc.
-- **Integration**: Connect with job boards and ATS systems
-
-## Known Limitations
-
-- **PDF Generation**: Currently saves HTML/text files only; PDF is a placeholder
-- **Dynamic Content**: May need updates if LinkedIn significantly changes their page structure
-- **Optional Fields**: Some fields (pay, applicants, posted date) may not always be available
-- **Windows Only**: Native host is currently Windows-specific
 
 ## Privacy & Security
 
@@ -204,4 +182,4 @@ This is a personal project without formal support. However, you can:
 
 ---
 
-**Disclaimer**: This extension is not affiliated with LinkedIn. Use responsibly and in accordance with LinkedIn's Terms of Service.
+This extension is not affiliated with LinkedIn.
