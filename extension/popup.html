@@ -54,6 +54,12 @@
       color: #333;
     }
 
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
     .form-group input, .form-group textarea {
       width: 100%;
       padding: 8px;
@@ -61,6 +67,38 @@
       border-radius: 4px;
       font-size: 14px;
       box-sizing: border-box;
+    }
+
+    .form-group .input-wrapper input {
+      padding-right: 35px; /* Make room for copy button */
+    }
+
+    .copy-btn {
+      position: absolute;
+      right: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 3px;
+      color: #666;
+      font-size: 14px;
+      line-height: 1;
+      opacity: 0.7;
+      transition: opacity 0.2s, background-color 0.2s;
+    }
+
+    .copy-btn:hover {
+      opacity: 1;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .copy-btn:active {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .copy-btn.copied {
+      color: #2e7d32;
     }
 
     .form-group textarea {
@@ -218,24 +256,36 @@
   <form id="jobForm">
     <div class="form-group">
       <label for="title">Job Title *</label>
-      <input type="text" id="title" name="title" required>
+      <div class="input-wrapper">
+        <input type="text" id="title" name="title" required>
+        <button type="button" class="copy-btn" data-target="title" title="Copy job title">📋</button>
+      </div>
       <div class="error-text hidden" id="titleError">Job title is required</div>
     </div>
 
     <div class="form-group">
       <label for="company">Company *</label>
-      <input type="text" id="company" name="company" required>
+      <div class="input-wrapper">
+        <input type="text" id="company" name="company" required>
+        <button type="button" class="copy-btn" data-target="company" title="Copy company name">📋</button>
+      </div>
       <div class="error-text hidden" id="companyError">Company name is required</div>
     </div>
 
     <div class="form-group">
       <label for="location">Location</label>
-      <input type="text" id="location" name="location">
+      <div class="input-wrapper">
+        <input type="text" id="location" name="location">
+        <button type="button" class="copy-btn" data-target="location" title="Copy location">📋</button>
+      </div>
     </div>
 
     <div class="form-group">
       <label for="pay">Pay</label>
-      <input type="text" id="pay" name="pay" placeholder="e.g., $80K - $100K/yr">
+      <div class="input-wrapper">
+        <input type="text" id="pay" name="pay" placeholder="e.g., $80K - $100K/yr">
+        <button type="button" class="copy-btn" data-target="pay" title="Copy pay information">📋</button>
+      </div>
     </div>
 
     <div class="form-group">

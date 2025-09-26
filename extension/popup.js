@@ -15,6 +15,11 @@ class JobLoggerPopup {
     document.getElementById('applyBtn').addEventListener('click', (e) => this.submitJob(e));
     document.getElementById('expandBtn').addEventListener('click', () => this.toggleDescription());
     
+    // Copy button events
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => this.copyFieldValue(e.target));
+    });
+    
     // Form validation
     const form = document.getElementById('jobForm');
     form.addEventListener('input', () => this.validateForm());
@@ -301,6 +306,50 @@ class JobLoggerPopup {
       setTimeout(() => this.hideStatus(), 2000);
     } catch (error) {
       console.error('Copy failed:', error);
+    }
+  }
+
+  async copyFieldValue(button) {
+    try {
+      const targetId = button.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      const value = input.value.trim();
+      
+      if (!value) {
+        // Briefly highlight the button to show it was clicked but nothing to copy
+        button.style.color = '#ff9800';
+        setTimeout(() => button.style.color = '', 500);
+        return;
+      }
+      
+      await navigator.clipboard.writeText(value);
+      
+      // Visual feedback
+      const originalText = button.textContent;
+      const originalColor = button.style.color;
+      
+      button.textContent = '✓';
+      button.style.color = '#2e7d32';
+      button.classList.add('copied');
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.style.color = originalColor;
+        button.classList.remove('copied');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Copy failed:', error);
+      
+      // Show error feedback
+      const originalText = button.textContent;
+      button.textContent = '✗';
+      button.style.color = '#c62828';
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.style.color = '';
+      }, 1000);
     }
   }
 
