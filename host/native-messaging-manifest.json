@@ -1,0 +1,9 @@
+{
+  "name": "com.joblogger.native_host",
+  "description": "LinkedIn Job Logger Native Messaging Host",
+  "path": "REPLACE_WITH_ACTUAL_PATH",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://REPLACE_WITH_EXTENSION_ID/"
+  ]
+}

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>LinkedIn Job Logger</title>
+  <style>
+    body {
+      width: 400px;
+      min-height: 300px;
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #0073b1;
+    }
+
+    .settings-btn {
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .settings-btn:hover {
+      background: #f0f0f0;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 4px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+
+    .description-container {
+      position: relative;
+    }
+
+    .description-preview {
+      max-height: 100px;
+      overflow: hidden;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 8px;
+      background: #f9f9f9;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .description-preview.expanded {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .expand-btn {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary {
+      background: #0073b1;
+      color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #005885;
+    }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e0e0e0;
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .status.loading {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .status.success {
+      background: #e8f5e8;
+      color: #2e7d32;
+    }
+
+    .status.error {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .status-actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-small {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 3px;
+      border: 1px solid #ddd;
+      background: white;
+      cursor: pointer;
+    }
+
+    .btn-small:hover {
+      background: #f0f0f0;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #0073b1;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error-text {
+      color: #c62828;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Job Logger</h1>
+    <button class="settings-btn" id="settingsBtn" title="Settings">⚙️</button>
+  </div>
+
+  <form id="jobForm">
+    <div class="form-group">
+      <label for="title">Job Title *</label>
+      <input type="text" id="title" name="title" required>
+      <div class="error-text hidden" id="titleError">Job title is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="company">Company *</label>
+      <input type="text" id="company" name="company" required>
+      <div class="error-text hidden" id="companyError">Company name is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" id="location" name="location">
+    </div>
+
+    <div class="form-group">
+      <label for="pay">Pay</label>
+      <input type="text" id="pay" name="pay" placeholder="e.g., $80K - $100K/yr">
+    </div>
+
+    <div class="form-group">
+      <label>Job Description</label>
+      <div class="description-container">
+        <div class="description-preview" id="descriptionPreview"></div>
+        <button type="button" class="expand-btn" id="expandBtn">Show More</button>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button type="button" class="btn btn-secondary" id="rescanBtn">Rescan</button>
+      <button type="submit" class="btn btn-primary" id="applyBtn">Apply</button>
+    </div>
+
+    <div class="status hidden" id="status"></div>
+  </form>
+
+  <script src="popup.js"></script>
+</body>
+</html>

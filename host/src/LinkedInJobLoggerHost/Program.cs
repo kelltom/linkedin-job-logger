@@ -1,2 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using LinkedInJobLoggerHost;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        var host = new NativeMessagingHost();
+        await host.RunAsync();
+    }
+}

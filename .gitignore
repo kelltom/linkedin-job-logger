@@ -88,10 +88,15 @@ temp/
 # -----------------------------
 # Published host artifacts copied here by release scripts
 /dist/extension/
- /dist/host/
+/dist/host/
 # Local installer artifacts
 host/scripts/*.generated.*
 host/scripts/*.local.*
+# Native messaging manifest with real paths
+host/native-messaging-manifest-actual.json
+# Test job folders
+test-jobs/
+job-output/
 
 # -----------------------------
 # Misc
