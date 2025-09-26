@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>LinkedIn Job Logger - Settings</title>
+  <link rel="stylesheet" href="common-theme.css">
   <style>
+    /* Settings-specific styles */
     body {
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 14px;
       line-height: 1.5;
     }
 
@@ -20,272 +20,15 @@
     }
 
     .header h1 {
-      margin: 0;
-      color: #0073b1;
       font-size: 24px;
-      font-weight: 600;
-    }
-
-    .header p {
-      margin: 8px 0 0 0;
-      color: #666;
     }
 
     .form-group {
       margin-bottom: 24px;
     }
 
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: #333;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .form-group input:focus {
-      outline: none;
-      border-color: #0073b1;
-      box-shadow: 0 0 0 2px rgba(0, 115, 177, 0.2);
-    }
-
-    .help-text {
-      font-size: 12px;
-      color: #666;
-      margin-top: 4px;
-    }
-
-    .test-section {
-      background: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-radius: 4px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-
-    .test-section h3 {
-      margin: 0 0 12px 0;
-      color: #333;
-      font-size: 16px;
-    }
-
     .button-group {
-      display: flex;
-      gap: 12px;
       margin-bottom: 32px;
-    }
-
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .btn-primary {
-      background: #0073b1;
-      color: white;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: #005885;
-    }
-
-    .btn-secondary {
-      background: #f0f0f0;
-      color: #333;
-      border: 1px solid #ddd;
-    }
-
-    .btn-secondary:hover:not(:disabled) {
-      background: #e0e0e0;
-    }
-
-    .btn-test {
-      background: #28a745;
-      color: white;
-    }
-
-    .btn-test:hover:not(:disabled) {
-      background: #218838;
-    }
-
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .status {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 4px;
-      font-size: 13px;
-    }
-
-    .status.loading {
-      background: #e3f2fd;
-      color: #1976d2;
-    }
-
-    .status.success {
-      background: #e8f5e8;
-      color: #2e7d32;
-    }
-
-    .status.error {
-      background: #ffebee;
-      color: #c62828;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #f3f3f3;
-      border-top: 2px solid #0073b1;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-right: 8px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .toggle-label {
-      font-size: 14px;
-      color: #666;
-    }
-
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: 0.3s;
-      border-radius: 24px;
-    }
-
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.3s;
-      border-radius: 50%;
-    }
-
-    input:checked + .toggle-slider {
-      background-color: #0073b1;
-    }
-
-    input:checked + .toggle-slider:before {
-      transform: translateX(26px);
-    }
-
-    .footer {
-      margin-top: 40px;
-      padding-top: 16px;
-      border-top: 1px solid #e0e0e0;
-      font-size: 12px;
-      color: #666;
-    }
-
-    /* Dark theme styles */
-    body.dark-theme {
-      background-color: #1f1f1f;
-      color: #e0e0e0;
-    }
-
-    body.dark-theme .header {
-      border-bottom-color: #0073b1;
-    }
-
-    body.dark-theme .header h1 {
-      color: #4da6d9;
-    }
-
-    body.dark-theme .header p,
-    body.dark-theme .form-group label,
-    body.dark-theme .help-text,
-    body.dark-theme .toggle-label,
-    body.dark-theme .footer {
-      color: #b0b0b0;
-    }
-
-    body.dark-theme .form-group input {
-      background-color: #2a2a2a;
-      border-color: #444;
-      color: #e0e0e0;
-    }
-
-    body.dark-theme .form-group input:focus {
-      border-color: #4da6d9;
-      box-shadow: 0 0 0 2px rgba(77, 166, 217, 0.2);
-    }
-
-    body.dark-theme .test-section {
-      background-color: #2a2a2a;
-      border-color: #444;
-    }
-
-    body.dark-theme .test-section h3 {
-      color: #e0e0e0;
-    }
-
-    body.dark-theme .btn-secondary {
-      background-color: #3a3a3a;
-      color: #e0e0e0;
-      border-color: #555;
-    }
-
-    body.dark-theme .btn-secondary:hover:not(:disabled) {
-      background-color: #4a4a4a;
-    }
-
-    body.dark-theme .footer {
-      border-top-color: #444;
     }
   </style>
 </head>
