@@ -143,13 +143,37 @@ if (typeof window.LinkedInJobParser === 'undefined') {
   }
 
   extractPay() {
-    // Look for salary/compensation information
-    const elements = document.querySelectorAll('[class*="fit-level"], [class*="salary"], [class*="compensation"]');
-    for (const element of elements) {
-      const text = element.textContent.trim();
-      // Match currency patterns
-      if (text.match(/(?:\$|€|£|CA\$|USD|EUR|GBP)[\d,]+(?:K|k)?(?:\s*-\s*(?:\$|€|£|CA\$|USD|EUR|GBP)?[\d,]+(?:K|k)?)?(?:\/(?:yr|year|hour|hr))?/i)) {
-        return this.sanitizeText(text);
+    // Look for salary/compensation information in fit-level containers
+    const containers = document.querySelectorAll('[class*="fit-level"], [class*="salary"], [class*="compensation"]');
+    
+    for (const container of containers) {
+      // Look for buttons that contain currency indicators
+      const buttons = container.querySelectorAll('button');
+      for (const button of buttons) {
+        const buttonText = button.textContent.trim();
+        // Check if this button contains currency indicators and numbers
+        if (buttonText.match(/(?:\$|€|£|CA\$|USD|EUR|GBP).*?\d/i)) {
+          // Make sure it's not just showing remote/location preferences
+          if (!buttonText.match(/remote|full-time|part-time|contract|temporary|matches your/i)) {
+            return this.sanitizeText(buttonText);
+          }
+        }
+      }
+      
+      // Fallback: look for spans with salary patterns
+      const spans = container.querySelectorAll('span');
+      for (const span of spans) {
+        const spanText = span.textContent.trim();
+        if (spanText.match(/(?:\$|€|£|CA\$|USD|EUR|GBP).*?\d/i) && 
+            !spanText.match(/remote|full-time|part-time|contract|temporary|matches your/i)) {
+          return this.sanitizeText(spanText);
+        }
+      }
+      
+      // Final fallback: check the whole container
+      const containerText = container.textContent.trim();
+      if (containerText.match(/(?:\$|€|£|CA\$|USD|EUR|GBP).*?\d/i)) {
+        return this.sanitizeText(containerText);
       }
     }
 
