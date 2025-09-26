@@ -1,9 +1,10 @@
 // Content script for parsing LinkedIn job pages
-class LinkedInJobParser {
-  constructor() {
-    this.maxRetries = 10;
-    this.retryDelay = 500;
-  }
+if (typeof window.LinkedInJobParser === 'undefined') {
+  class LinkedInJobParser {
+    constructor() {
+      this.maxRetries = 10;
+      this.retryDelay = 500;
+    }
 
   async waitForJobDetails(retryCount = 0) {
     const jobDetailsPane = document.querySelector('[class*="job-details"]');
@@ -228,16 +229,27 @@ class LinkedInJobParser {
   }
 }
 
-// Listen for messages from popup
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'PARSE_JOB_DATA') {
-    const parser = new LinkedInJobParser();
-    parser.parseJobData()
-      .then(data => sendResponse({ success: true, data }))
-      .catch(error => sendResponse({ success: false, error: error.message }));
-    return true; // Keep message channel open for async response
+  // Listen for messages from popup (only if not already set up)
+  if (!window.linkedInJobParserListenerSetup) {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.type === 'PING') {
+        sendResponse({ success: true, message: 'Content script loaded' });
+        return true;
+      }
+      
+      if (message.type === 'PARSE_JOB_DATA') {
+        const parser = window.linkedInJobParser || new LinkedInJobParser();
+        parser.parseJobData()
+          .then(data => sendResponse({ success: true, data }))
+          .catch(error => sendResponse({ success: false, error: error.message }));
+        return true; // Keep message channel open for async response
+      }
+    });
+    
+    window.linkedInJobParserListenerSetup = true;
   }
-});
 
-// Initialize parser and make it available globally
-window.linkedInJobParser = new LinkedInJobParser();
+  // Initialize parser and make it available globally
+  window.linkedInJobParser = new LinkedInJobParser();
+  window.LinkedInJobParser = LinkedInJobParser;
+}

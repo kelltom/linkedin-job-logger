@@ -45,18 +45,28 @@ class JobLoggerPopup {
         throw new Error('Please navigate to a LinkedIn job page');
       }
 
-      // First try to inject the content script if it's not already there
+      // Check if content script is already loaded, if not, inject it
+      let contentScriptLoaded = false;
       try {
-        await chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          files: ['content.js']
-        });
-      } catch (injectionError) {
-        console.log('Content script may already be injected:', injectionError);
+        // Try to send a test message to see if content script exists
+        await chrome.tabs.sendMessage(tab.id, { type: 'PING' });
+        contentScriptLoaded = true;
+        console.log('Content script already loaded');
+      } catch (pingError) {
+        console.log('Content script not loaded, injecting...');
+        try {
+          await chrome.scripting.executeScript({
+            target: { tabId: tab.id },
+            files: ['content.js']
+          });
+          contentScriptLoaded = true;
+          // Wait a moment for the script to initialize
+          await new Promise(resolve => setTimeout(resolve, 800));
+        } catch (injectionError) {
+          console.error('Failed to inject content script:', injectionError);
+          throw new Error('Could not load LinkedIn page parser. Please refresh the page and try again.');
+        }
       }
-
-      // Wait a moment for the script to initialize
-      await new Promise(resolve => setTimeout(resolve, 500));
 
       // Send message to content script with retry logic
       let response;
@@ -281,14 +291,22 @@ class JobLoggerPopup {
     
     if (actions.length > 0) {
       html += '<div class="status-actions">';
-      actions.forEach(action => {
-        html += `<button class="btn-small" onclick="(${action.action.toString()})()">${action.text}</button>`;
+      actions.forEach((action, index) => {
+        html += `<button class="btn-small" data-action-index="${index}">${action.text}</button>`;
       });
       html += '</div>';
     }
     
     statusDiv.innerHTML = html;
     statusDiv.classList.remove('hidden');
+    
+    // Add event listeners for action buttons (avoiding inline handlers)
+    if (actions.length > 0) {
+      const actionButtons = statusDiv.querySelectorAll('.btn-small[data-action-index]');
+      actionButtons.forEach((button, index) => {
+        button.addEventListener('click', actions[index].action);
+      });
+    }
   }
 
   hideStatus() {
