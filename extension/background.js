@@ -22,22 +22,42 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 async function sendToNativeHost(payload) {
   return new Promise((resolve, reject) => {
     try {
+      console.log('Connecting to native host:', HOST_NAME);
+      console.log('Sending payload:', payload);
+      
       const port = chrome.runtime.connectNative(HOST_NAME);
+      let responseReceived = false;
+      
+      // Add timeout
+      const timeout = setTimeout(() => {
+        if (!responseReceived) {
+          port.disconnect();
+          reject(new Error('Native host response timeout (10 seconds)'));
+        }
+      }, 10000);
       
       port.onMessage.addListener((response) => {
+        console.log('Received response from native host:', response);
+        responseReceived = true;
+        clearTimeout(timeout);
         port.disconnect();
         resolve(response);
       });
       
       port.onDisconnect.addListener(() => {
+        clearTimeout(timeout);
         const error = chrome.runtime.lastError;
-        if (error) {
+        console.log('Native host disconnected, error:', error);
+        if (error && !responseReceived) {
           reject(new Error(`Native host disconnected: ${error.message}`));
         }
+        // If response was received, the disconnect is expected
       });
       
       port.postMessage(payload);
+      console.log('Message sent to native host');
     } catch (error) {
+      console.error('Error connecting to native host:', error);
       reject(new Error(`Failed to connect to native host: ${error.message}`));
     }
   });

@@ -14,7 +14,7 @@ if %errorLevel% == 0 (
 
 :: Get current directory
 set SCRIPT_DIR=%~dp0
-set HOST_EXE=%SCRIPT_DIR%bin\Release\LinkedInJobLoggerHost.exe
+set HOST_EXE=%SCRIPT_DIR%bin\LinkedInJobLoggerHost.exe
 set MANIFEST_FILE=%SCRIPT_DIR%native-messaging-manifest.json
 
 echo Checking for host executable...

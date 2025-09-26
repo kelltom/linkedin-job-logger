@@ -40,8 +40,37 @@ class JobLoggerPopup {
         throw new Error('Please navigate to a LinkedIn job page');
       }
 
-      // Send message to content script
-      const response = await chrome.tabs.sendMessage(tab.id, { type: 'PARSE_JOB_DATA' });
+      // First try to inject the content script if it's not already there
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: ['content.js']
+        });
+      } catch (injectionError) {
+        console.log('Content script may already be injected:', injectionError);
+      }
+
+      // Wait a moment for the script to initialize
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      // Send message to content script with retry logic
+      let response;
+      let retries = 3;
+      
+      while (retries > 0) {
+        try {
+          response = await chrome.tabs.sendMessage(tab.id, { type: 'PARSE_JOB_DATA' });
+          break;
+        } catch (messageError) {
+          console.log(`Message attempt failed, retries left: ${retries - 1}`, messageError);
+          retries--;
+          if (retries > 0) {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+          } else {
+            throw new Error('Could not communicate with LinkedIn page. Please refresh the page and try again.');
+          }
+        }
+      }
       
       if (!response.success) {
         throw new Error(response.error);
