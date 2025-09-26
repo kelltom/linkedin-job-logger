@@ -168,12 +168,124 @@
       display: none;
     }
 
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #0073b1;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
     .footer {
       margin-top: 40px;
       padding-top: 16px;
       border-top: 1px solid #e0e0e0;
       font-size: 12px;
       color: #666;
+    }
+
+    /* Dark theme styles */
+    body.dark-theme {
+      background-color: #1f1f1f;
+      color: #e0e0e0;
+    }
+
+    body.dark-theme .header {
+      border-bottom-color: #0073b1;
+    }
+
+    body.dark-theme .header h1 {
+      color: #4da6d9;
+    }
+
+    body.dark-theme .header p,
+    body.dark-theme .form-group label,
+    body.dark-theme .help-text,
+    body.dark-theme .toggle-label,
+    body.dark-theme .footer {
+      color: #b0b0b0;
+    }
+
+    body.dark-theme .form-group input {
+      background-color: #2a2a2a;
+      border-color: #444;
+      color: #e0e0e0;
+    }
+
+    body.dark-theme .form-group input:focus {
+      border-color: #4da6d9;
+      box-shadow: 0 0 0 2px rgba(77, 166, 217, 0.2);
+    }
+
+    body.dark-theme .test-section {
+      background-color: #2a2a2a;
+      border-color: #444;
+    }
+
+    body.dark-theme .test-section h3 {
+      color: #e0e0e0;
+    }
+
+    body.dark-theme .btn-secondary {
+      background-color: #3a3a3a;
+      color: #e0e0e0;
+      border-color: #555;
+    }
+
+    body.dark-theme .btn-secondary:hover:not(:disabled) {
+      background-color: #4a4a4a;
+    }
+
+    body.dark-theme .footer {
+      border-top-color: #444;
     }
   </style>
 </head>
@@ -189,6 +301,21 @@
       <input type="text" id="baseFolder" name="baseFolder" placeholder="C:\Users\YourName\Documents\Job Applications">
       <div class="help-text">
         Full path where job folders will be created. Each job will get its own subfolder.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="theme">Theme</label>
+      <div class="toggle-container">
+        <span class="toggle-label">Light</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="theme" name="theme">
+          <span class="toggle-slider"></span>
+        </label>
+        <span class="toggle-label">Dark</span>
+      </div>
+      <div class="help-text">
+        Choose between light and dark theme for the extension.
       </div>
     </div>
 

@@ -9,12 +9,17 @@ class SettingsManager {
     document.getElementById('settingsForm').addEventListener('submit', (e) => this.saveSettings(e));
     document.getElementById('testBtn').addEventListener('click', () => this.testNativeHost());
     document.getElementById('cancelBtn').addEventListener('click', () => this.cancel());
+    document.getElementById('theme').addEventListener('change', (e) => this.toggleTheme(e));
   }
 
   async loadSettings() {
     try {
-      const result = await chrome.storage.local.get(['baseFolder']);
+      const result = await chrome.storage.local.get(['baseFolder', 'theme']);
       document.getElementById('baseFolder').value = result.baseFolder || '';
+      
+      const theme = result.theme || 'light';
+      document.getElementById('theme').checked = theme === 'dark';
+      this.applyTheme(theme);
     } catch (error) {
       console.error('Failed to load settings:', error);
       this.showSaveStatus('error', 'Failed to load settings');
@@ -25,6 +30,7 @@ class SettingsManager {
     e.preventDefault();
     
     const baseFolder = document.getElementById('baseFolder').value.trim();
+    const theme = document.getElementById('theme').checked ? 'dark' : 'light';
     
     if (!baseFolder) {
       this.showSaveStatus('error', 'Base folder path is required');
@@ -32,7 +38,7 @@ class SettingsManager {
     }
 
     try {
-      await chrome.storage.local.set({ baseFolder });
+      await chrome.storage.local.set({ baseFolder, theme });
       this.showSaveStatus('success', 'Settings saved successfully!');
     } catch (error) {
       console.error('Failed to save settings:', error);
@@ -105,6 +111,21 @@ class SettingsManager {
 
   hideSaveStatus() {
     document.getElementById('saveStatus').classList.add('hidden');
+  }
+
+  toggleTheme(e) {
+    const theme = e.target.checked ? 'dark' : 'light';
+    this.applyTheme(theme);
+    // Auto-save theme preference
+    chrome.storage.local.set({ theme });
+  }
+
+  applyTheme(theme) {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
   }
 }
 

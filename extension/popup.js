@@ -6,6 +6,7 @@ class JobLoggerPopup {
     this.isLoading = false;
     
     this.bindEvents();
+    this.loadTheme();
     this.initialize();
   }
 
@@ -368,6 +369,24 @@ class JobLoggerPopup {
         button.textContent = originalText;
         button.style.color = '';
       }, 1000);
+    }
+  }
+
+  async loadTheme() {
+    try {
+      const result = await chrome.storage.local.get(['theme']);
+      const theme = result.theme || 'light';
+      this.applyTheme(theme);
+    } catch (error) {
+      console.error('Failed to load theme:', error);
+    }
+  }
+
+  applyTheme(theme) {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
     }
   }
 
