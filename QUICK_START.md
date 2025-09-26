@@ -12,8 +12,8 @@
 1. Open Chrome and go to `chrome://extensions/`
 2. Enable "Developer mode" (toggle in top right)
 3. Click "Load unpacked"
-4. Navigate to and select: `c:\Users\kelle\repos\linkedin-job-logger\extension`
-5. **Copy the Extension ID** (it will look like `khcdpkncnmhkdmjmpbmijgchopjliood`)
+4. Navigate to and select: `c:\Users\%USERPROFILE%\repos\linkedin-job-logger\extension`
+5. **Copy the Extension ID** (~32 characters)
 
 ### 2. Register the Native Host
 
@@ -26,7 +26,7 @@
 
 1. Click the extension icon in Chrome
 2. Click the settings gear (⚙️) 
-3. Set your base folder (e.g., `C:\Users\kelle\Documents\Job Applications`)
+3. Set your base folder (e.g., `C:\Users\%USERPROFILE%\Documents\Job Applications`)
 4. Click "Test Native Host" - you should see "Native host connection successful!"
 5. Save settings
 
